@@ -15,7 +15,6 @@ import java.text.DecimalFormat
 class MainActivity : AppCompatActivity() {
 
     private var isMaleSelected: Boolean = true
-    private var isFemaleSelected: Boolean = false
     private var currentWeight: Int = 70
     private var currentAge: Int = 18
     private var currentHeight: Int = 120
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnCalculate: Button
 
     // Es como un atributo estático en java. Se puede acceder desde cualquier lado.
-    companion object{
+    companion object {
         const val IMC_KEY = "IMC_RESULT"
     }
 
@@ -68,12 +67,17 @@ class MainActivity : AppCompatActivity() {
         // Cuando se pulse en el viewMale o female, cambia el género activo y establece el color
         // de las tarjetas de género.
         viewMale.setOnClickListener {
-            changeGender()
-            setGenderColor()
+            if (!isMaleSelected) {
+                changeGender()
+                setGenderColor()
+            }
+
         }
         viewFemale.setOnClickListener {
-            changeGender()
-            setGenderColor()
+            if (isMaleSelected) {
+                changeGender()
+                setGenderColor()
+            }
         }
 
         rsHeight.addOnChangeListener { _, value, _ ->
@@ -84,22 +88,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnPlusWeight.setOnClickListener {
-            currentWeight ++
+            currentWeight++
             setWeight()
         }
 
         btnSubtractWeight.setOnClickListener {
-            currentWeight --
+            currentWeight--
             setWeight()
         }
 
         btnPlusAge.setOnClickListener {
-            currentAge ++
+            currentAge++
             setAge()
         }
 
         btnSubtractAge.setOnClickListener {
-            currentAge --
+            currentAge--
             setAge()
         }
 
@@ -120,24 +124,23 @@ class MainActivity : AppCompatActivity() {
         val df = DecimalFormat("#.##")
 
         // Tenemos que pasar la altura a metros
-        val imc = currentWeight / (currentHeight.toDouble()/100 * currentHeight.toDouble()/100)
+        val imc = currentWeight / (currentHeight.toDouble() / 100 * currentHeight.toDouble() / 100)
         val result = df.format(imc).toDouble()
 
         return result
     }
 
-    private fun setAge(){
+    private fun setAge() {
         tvAge.text = currentAge.toString()
     }
 
-    private fun setWeight(){
+    private fun setWeight() {
         tvWeight.text = currentWeight.toString()
     }
 
     // Invierte los valores de los géneros
     private fun changeGender() {
         isMaleSelected = !isMaleSelected
-        isFemaleSelected = !isFemaleSelected
     }
 
     // Establece el valor de
@@ -145,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         // Establece el color de fondo de las tarjetas y le pasamos por parámetro
         // el valor devuelto de la función getBackgroundColor)
         viewMale.setCardBackgroundColor(getBackgroundColor(isMaleSelected))
-        viewFemale.setCardBackgroundColor(getBackgroundColor(isFemaleSelected))
+        viewFemale.setCardBackgroundColor(getBackgroundColor(!isMaleSelected))
     }
 
     private fun getBackgroundColor(isSelectedComponent: Boolean): Int {

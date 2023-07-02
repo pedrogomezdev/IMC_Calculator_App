@@ -1,5 +1,6 @@
 package com.pedrogomezdev.imcapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -20,6 +21,7 @@ class ResultIMCActivity : AppCompatActivity() {
 
         val result = intent.extras?.getDouble(IMC_KEY) ?: -1.0
         initComponents()
+        initListeners()
         initUI(result)
     }
 
@@ -76,4 +78,5 @@ class ResultIMCActivity : AppCompatActivity() {
             }
         }
     }
+
 }
